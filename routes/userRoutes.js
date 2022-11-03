@@ -1,0 +1,21 @@
+const express = require('express');
+const router = express.Router();
+
+const auth = require('../auth');
+const { verifyToken, verifyAdmin } = auth;
+
+const adminControllers = require('../controllers/adminController');
+
+// Sign up router
+router.post('/signup', adminControllers.signUp);
+router.get('/login', adminControllers.login);
+router.post('/addDetails', verifyToken, verifyAdmin, adminControllers.addData);
+router.put(
+  '/updateUserDetails',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.updateUserData
+);
+router.get('/getUserData', verifyToken, adminControllers.getUserData);
+
+module.exports = router;

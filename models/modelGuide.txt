@@ -1,0 +1,33 @@
+USER
+Description: User will be able to sign up, login, logout. Add user details.
+
+firstName - String
+lastName - String
+aboutMe - String
+isAdmin - boolean (default: false)
+image [
+    {
+        page - String
+        url - String
+    }
+]
+workExperience [
+    {
+        year - String
+        role - String
+        description - String
+    }
+]
+projects [
+    {
+        name - String
+        typeOfProject - String
+        status - String
+        description - String
+        language - [
+            {
+                name - String
+            }
+        ]
+    }
+]
