@@ -74,7 +74,7 @@ const addUserData = async (req, res) => {
     );
 
     return findUser
-      ? res.send(saveDetails)
+      ? res.send(findUser)
       : res.send({ error: 'Error saving data' });
   } catch (error) {
     return res.send({ error: `Error: ${error.message}` });
