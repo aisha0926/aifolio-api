@@ -43,7 +43,7 @@ const login = async (req, res) => {
 
     if (findUser) {
       return validatePassword
-        ? res.send(auth.createToken(findUser))
+        ? res.send({ accessToken: auth.createToken(findUser) })
         : res.send({ message: 'Password is incorrect' });
     }
   } catch (error) {
