@@ -128,7 +128,7 @@ module.exports = {
   signUp,
   login,
   addUserData,
-  updateUserData,
+
   getUserData,
   getAllUser,
 };
