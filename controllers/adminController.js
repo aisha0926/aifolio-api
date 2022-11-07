@@ -116,6 +116,12 @@ const getUserData = async (req, res) => {
     : res.send({ message: 'Unable to find user' });
 };
 
+const getAllUser = async (req, res) => {
+  const data = await Admin.find({});
+
+  return res.send(data);
+};
+
 // Module to delete data
 
 module.exports = {
@@ -124,4 +130,5 @@ module.exports = {
   addData,
   updateUserData,
   getUserData,
+  getAllUser,
 };

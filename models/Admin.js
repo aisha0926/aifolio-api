@@ -33,15 +33,17 @@ const adminSchema = new mongoose.Schema({
   ],
   projects: [
     {
-      name: String,
+      title: String,
+      subtitle: String,
+      description: String,
       typeOfProject: String,
       status: String,
-      description: String,
+      link: String,
       archive: {
         type: Boolean,
         default: false,
       },
-      language: [
+      technologies: [
         {
           name: String,
         },

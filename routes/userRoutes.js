@@ -17,5 +17,6 @@ router.put(
   adminControllers.updateUserData
 );
 router.get('/getUserData', verifyToken, adminControllers.getUserData);
+router.get('/getAllUser', adminControllers.getAllUser);
 
 module.exports = router;
