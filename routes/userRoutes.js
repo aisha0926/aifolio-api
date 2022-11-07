@@ -8,7 +8,7 @@ const adminControllers = require('../controllers/adminController');
 
 // Sign up router
 router.post('/signup', adminControllers.signUp);
-router.get('/login', adminControllers.login);
+router.post('/login', adminControllers.login);
 router.post('/addDetails', verifyToken, verifyAdmin, adminControllers.addData);
 router.put(
   '/updateUserDetails',
