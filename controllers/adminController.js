@@ -54,58 +54,58 @@ const login = async (req, res) => {
 };
 
 // Module add data
-const addData = async (req, res) => {
+const addUserData = async (req, res) => {
   try {
     const { aboutMe, image, workExperience, projects } = req.body;
 
-    const findUser = await Admin.findById(req.user.id);
-
-    if (findUser) {
-      const addDetails = new Admin({
-        aboutMe,
-        image,
-        workExperience,
-        projects,
-      });
-
-      const saveDetails = await addDetails.save();
-
-      return saveDetails
-        ? res.send(saveDetails)
-        : res.send({ message: 'Error saving data' });
-    } else {
-      return res.send({ message: 'Unable to find user' });
-    }
-  } catch (error) {
-    return res.send({ message: `Error: ${error.message}` });
-  }
-};
-
-// Module to update data
-const updateUserData = async (req, res) => {
-  //* get user via jwt
-  try {
-    const { aboutMe, image, workExperience, projects } = req.body;
-    const { id } = req.user;
-
-    const newData = {
+    const details = {
       aboutMe,
       image,
       workExperience,
       projects,
     };
 
-    const findAdmin = await Admin.findByIdAndUpdate(
-      id,
-      { $push: newData },
-      { new: true }
+    const findUser = await Admin.findByIdAndUpdate(
+      req.user.id,
+      { $push: details },
+      {
+        new: true,
+      }
     );
 
-    return findAdmin ? res.send(findAdmin) : res.send('Unable to find data');
+    return findUser
+      ? res.send(saveDetails)
+      : res.send({ error: 'Error saving data' });
   } catch (error) {
-    return res.send({ message: error.message });
+    return res.send({ error: `Error: ${error.message}` });
   }
 };
+
+// Module to update data
+// const updateUserData = async (req, res) => {
+//   //* get user via jwt
+//   try {
+//     const { aboutMe, image, workExperience, projects } = req.body;
+//     const { id } = req.user;
+
+//     const newData = {
+//       aboutMe,
+//       image,
+//       workExperience,
+//       projects,
+//     };
+
+//     const findAdmin = await Admin.findByIdAndUpdate(
+//       id,
+//       { $push: newData },
+//       { new: true }
+//     );
+
+//     return findAdmin ? res.send(findAdmin) : res.send('Unable to find data');
+//   } catch (error) {
+//     return res.send({ message: error.message });
+//   }
+// };
 
 // Module to get admin data
 const getUserData = async (req, res) => {
@@ -127,7 +127,7 @@ const getAllUser = async (req, res) => {
 module.exports = {
   signUp,
   login,
-  addData,
+  addUserData,
   updateUserData,
   getUserData,
   getAllUser,

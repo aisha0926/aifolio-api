@@ -9,13 +9,18 @@ const adminControllers = require('../controllers/adminController');
 // Sign up router
 router.post('/signup', adminControllers.signUp);
 router.post('/login', adminControllers.login);
-router.post('/addDetails', verifyToken, verifyAdmin, adminControllers.addData);
 router.put(
-  '/updateUserDetails',
+  '/addUserData',
   verifyToken,
   verifyAdmin,
-  adminControllers.updateUserData
+  adminControllers.addUserData
 );
+// router.put(
+//   '/updateUserDetails',
+//   verifyToken,
+//   verifyAdmin,
+//   adminControllers.updateUserData
+// );
 router.get('/getUserData', verifyToken, adminControllers.getUserData);
 router.get('/getAllUser', adminControllers.getAllUser);
 
