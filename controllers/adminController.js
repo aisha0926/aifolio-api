@@ -69,7 +69,6 @@ const addUserData = async (req, res) => {
     } = req.body;
 
     const details = {
-      aboutMe,
       image,
       workExperience,
       projects,
@@ -87,6 +86,7 @@ const addUserData = async (req, res) => {
       firstName,
       lastName,
       email,
+      aboutMe,
     };
 
     const findUserAndUpdate = await Admin.findByIdAndUpdate(
