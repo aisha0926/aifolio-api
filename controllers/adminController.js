@@ -91,8 +91,7 @@ const addUserData = async (req, res) => {
 
     const findUserAndUpdate = await Admin.findByIdAndUpdate(
       req.user.id,
-      userDetail,
-      { new: true }
+      userDetail
     );
 
     return findUser & findUserAndUpdate
