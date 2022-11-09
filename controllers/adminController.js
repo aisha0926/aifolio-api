@@ -58,7 +58,15 @@ const login = async (req, res) => {
 // Module add data
 const addUserData = async (req, res) => {
   try {
-    const { aboutMe, image, workExperience, projects } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      aboutMe,
+      image,
+      workExperience,
+      projects,
+    } = req.body;
 
     const details = {
       aboutMe,
@@ -75,7 +83,19 @@ const addUserData = async (req, res) => {
       }
     );
 
-    return findUser
+    const userDetail = {
+      firstName,
+      lastName,
+      email,
+    };
+
+    const findUserAndUpdate = await Admin.findByIdAndUpdate(
+      req.user.id,
+      userDetail,
+      { new: true }
+    );
+
+    return findUser & findUserAndUpdate
       ? res.send(findUser)
       : res.send({ error: 'Error saving data' });
   } catch (error) {
