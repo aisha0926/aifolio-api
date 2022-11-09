@@ -58,20 +58,9 @@ const login = async (req, res) => {
 // Module add data
 const addUserData = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      aboutMe,
-      image,
-      workExperience,
-      projects,
-    } = req.body;
+    const { aboutMe, image, workExperience, projects } = req.body;
 
     const details = {
-      firstName,
-      lastName,
-      email,
       aboutMe,
       image,
       workExperience,
