@@ -21,7 +21,17 @@ router.put(
 //   verifyAdmin,
 //   adminControllers.updateUserData
 // );
-router.get('/getUserData', verifyToken, adminControllers.getUserData);
-router.get('/getAllUser', adminControllers.getAllUser);
+router.get(
+  '/getUserData',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.getUserData
+);
+router.get(
+  '/getAllUser',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.getAllUser
+);
 
 module.exports = router;

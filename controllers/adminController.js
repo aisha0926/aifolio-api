@@ -8,7 +8,7 @@ const signUp = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
     Admin.countDocuments(email, async (err, count) => {
-      err && res.send({ message: err.message });
+      err && res.send({ error: err.message });
 
       if (count === 0) {
         const hashPassword = bcrypt.hashSync(password, 10);
@@ -22,13 +22,15 @@ const signUp = async (req, res) => {
 
         const saveUser = await newUser.save();
 
-        return saveUser ? res.send(saveUser) : res.send('Error in saving data');
+        return saveUser
+          ? res.send(saveUser)
+          : res.send({ error: 'Error in saving data' });
       } else {
-        return res.send({ message: 'Email already exists' });
+        return res.send({ error: 'Email already exists' });
       }
     });
   } catch (error) {
-    return res.send({ message: error.message });
+    return res.send({ error: error.message });
   }
 };
 
@@ -44,11 +46,11 @@ const login = async (req, res) => {
     if (findUser) {
       return validatePassword
         ? res.send({ accessToken: auth.createToken(findUser) })
-        : res.send({ message: 'Password is incorrect' });
+        : res.send({ error: 'Password is incorrect' });
     }
   } catch (error) {
     return res.send({
-      message: `Unable to find user with email: ${email}`,
+      error: `Unable to find user with email: ${email}`,
     });
   }
 };
@@ -56,9 +58,20 @@ const login = async (req, res) => {
 // Module add data
 const addUserData = async (req, res) => {
   try {
-    const { aboutMe, image, workExperience, projects } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      aboutMe,
+      image,
+      workExperience,
+      projects,
+    } = req.body;
 
     const details = {
+      firstName,
+      lastName,
+      email,
       aboutMe,
       image,
       workExperience,
@@ -113,7 +126,7 @@ const getUserData = async (req, res) => {
 
   return getUser
     ? res.send(getUser)
-    : res.send({ message: 'Unable to find user' });
+    : res.send({ error: 'Unable to find user' });
 };
 
 const getAllUser = async (req, res) => {
