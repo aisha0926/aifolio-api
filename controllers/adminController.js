@@ -94,9 +94,21 @@ const addUserData = async (req, res) => {
       userDetail
     );
 
-    return findUser & findUserAndUpdate
-      ? res.send(findUser)
-      : res.send({ error: 'Error saving data' });
+    if (findUser) {
+      if (findUserAndUpdate) {
+        return res.send(findUser);
+      } else {
+        return res.send({
+          error: `Error saving data ${findUserAndUpdate} not found`,
+        });
+      }
+    } else {
+      return res.send({ error: `Error saving data ${findUser} not found` });
+    }
+
+    // return findUser & findUserAndUpdate
+    //   ? res.send(findUser)
+    //   : res.send({ error: 'Error saving data' });
   } catch (error) {
     return res.send({ error: `Error: ${error.message}` });
   }
