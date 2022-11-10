@@ -150,7 +150,7 @@ const getUserData = async (req, res) => {
 };
 
 const getAllUser = async (req, res) => {
-  const data = await Admin.find({});
+  const data = await Admin.find({}).select('-password -isAdmin');
 
   return res.send(data);
 };
