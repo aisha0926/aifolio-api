@@ -29,8 +29,7 @@ router.get(
 );
 router.get(
   '/getAllUser',
-  verifyToken,
-  verifyAdmin,
+
   adminControllers.getAllUser
 );
 
