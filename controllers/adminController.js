@@ -79,11 +79,11 @@ const addUserData = async (req, res) => {
       {
         $push: {
           workExperience: {
-            $each: workExperience,
+            $each: [workExperience],
             $position: 0,
           },
           projects: {
-            $each: projects,
+            $each: [projects],
             $position: 0,
           },
         },
