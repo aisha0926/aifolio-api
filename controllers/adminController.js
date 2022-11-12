@@ -76,7 +76,7 @@ const addUserData = async (req, res) => {
 
     const findUser = await Admin.findByIdAndUpdate(
       req.user.id,
-      { $unshift: details },
+      { $push: details, $position: 0 },
       {
         new: true,
       }
