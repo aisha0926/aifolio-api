@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 // Create token
 const createToken = (user) => {
@@ -40,7 +40,7 @@ const verifyAdmin = (req, res, next) => {
   isAdmin ? next() : res.send({ auth: 'Action Forbidden.' });
 };
 
-module.exports = {
+export default {
   createToken,
   verifyToken,
   verifyAdmin,

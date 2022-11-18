@@ -1,7 +1,9 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -18,7 +20,7 @@ mongoose
   .then((db) => console.log('Connected to DB'))
   .catch((err) => console.log(`Error: ${err}`));
 
-const userRoutes = require('./routes/userRoutes');
-app.use('/user', userRoutes);
+import userRoutes from './routes/userRoutes.js';
+app.use('/api/user', userRoutes);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));

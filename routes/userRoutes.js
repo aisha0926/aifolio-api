@@ -1,36 +1,26 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const auth = require('../auth');
+import auth from '../auth.js';
 const { verifyToken, verifyAdmin } = auth;
 
-const adminControllers = require('../controllers/adminController');
+import adminControllers from '../controllers/adminController.js';
 
 // Sign up router
 router.post('/signup', adminControllers.signUp);
 router.post('/login', adminControllers.login);
-router.put(
-  '/addUserData',
+router.put('/add', verifyToken, verifyAdmin, adminControllers.addUserData);
+router.patch(
+  '/update',
   verifyToken,
   verifyAdmin,
-  adminControllers.addUserData
+  adminControllers.updateUserData
 );
-// router.put(
-//   '/updateUserDetails',
-//   verifyToken,
-//   verifyAdmin,
-//   adminControllers.updateUserData
-// );
+router.get('/get', verifyToken, verifyAdmin, adminControllers.getUserData);
 router.get(
-  '/getUserData',
-  verifyToken,
-  verifyAdmin,
-  adminControllers.getUserData
-);
-router.get(
-  '/getAllUser',
+  '/get/all',
 
   adminControllers.getAllUser
 );
 
-module.exports = router;
+export default router;

@@ -1,6 +1,8 @@
-const Admin = require('../models/Admin');
-const bcrypt = require('bcryptjs');
-const auth = require('../auth');
+import Admin from '../models/Admin.js';
+import auth from '../auth.js';
+
+import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 //Module for sign up
 const signUp = async (req, res) => {
@@ -68,13 +70,11 @@ const addUserData = async (req, res) => {
       projects,
     } = req.body;
 
-    const details = {
-      image,
-      workExperience,
-      projects,
-    };
-
-    console.log(workExperience);
+    // const details = {
+    //   image,
+    //   workExperience,
+    //   projects,
+    // };
 
     const findUser = await Admin.findByIdAndUpdate(
       req.user.id,
@@ -119,40 +119,38 @@ const addUserData = async (req, res) => {
     } else {
       return res.send({ error: `Error saving data ${findUser} not found` });
     }
-
-    // return findUser & findUserAndUpdate
-    //   ? res.send(findUser)
-    //   : res.send({ error: 'Error saving data' });
   } catch (error) {
     return res.send({ error: `Error: ${error.message}` });
   }
 };
 
 // Module to update data
-// const updateUserData = async (req, res) => {
-//   //* get user via jwt
-//   try {
-//     const { aboutMe, image, workExperience, projects } = req.body;
-//     const { id } = req.user;
+const updateUserData = async (req, res) => {
+  //* get user via jwt
+  try {
+    const { _id, project } = req.body;
+    // const { id } = req.user;
 
-//     const newData = {
-//       aboutMe,
-//       image,
-//       workExperience,
-//       projects,
-//     };
+    const $set = {};
+    for (const key in project) {
+      $set[`projects.$.${key}`] = project[key];
+    }
+    console.log($set);
 
-//     const findAdmin = await Admin.findByIdAndUpdate(
-//       id,
-//       { $push: newData },
-//       { new: true }
-//     );
+    //Positional dollar sign
+    const test = await Admin.findOneAndUpdate(
+      {
+        projects: { $elemMatch: { _id: _id } },
+      },
+      { $set: $set },
+      { new: true }
+    );
 
-//     return findAdmin ? res.send(findAdmin) : res.send('Unable to find data');
-//   } catch (error) {
-//     return res.send({ message: error.message });
-//   }
-// };
+    res.send(test);
+  } catch (error) {
+    return res.send({ message: error.message });
+  }
+};
 
 // Module to get admin data
 const getUserData = async (req, res) => {
@@ -169,13 +167,17 @@ const getAllUser = async (req, res) => {
   return res.send(data);
 };
 
+const getAllRepos = async (req, res) => {
+  const githubReq = await axios;
+};
+
 // Module to delete data
 
-module.exports = {
+export default {
   signUp,
   login,
   addUserData,
-
+  updateUserData,
   getUserData,
   getAllUser,
 };
