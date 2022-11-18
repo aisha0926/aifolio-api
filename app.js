@@ -23,4 +23,7 @@ mongoose
 import userRoutes from './routes/userRoutes.js';
 app.use('/api/user', userRoutes);
 
+import githubRoutes from './routes/githubRoutes.js';
+app.use('/api/github', githubRoutes);
+
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));

@@ -2,7 +2,6 @@ import Admin from '../models/Admin.js';
 import auth from '../auth.js';
 
 import bcrypt from 'bcryptjs';
-import mongoose from 'mongoose';
 
 //Module for sign up
 const signUp = async (req, res) => {
@@ -165,10 +164,6 @@ const getAllUser = async (req, res) => {
   const data = await Admin.find({}).select('-password -isAdmin');
 
   return res.send(data);
-};
-
-const getAllRepos = async (req, res) => {
-  const githubReq = await axios;
 };
 
 // Module to delete data

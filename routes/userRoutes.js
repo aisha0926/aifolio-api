@@ -16,7 +16,12 @@ router.patch(
   verifyAdmin,
   adminControllers.updateUserData
 );
-router.get('/get', verifyToken, verifyAdmin, adminControllers.getUserData);
+router.get(
+  '/get/single',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.getUserData
+);
 router.get(
   '/get/all',
 
