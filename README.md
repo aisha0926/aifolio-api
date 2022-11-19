@@ -135,7 +135,7 @@ These endpoints are implemented to make it easier for you to use Github API, esp
 **GET**
   > **/api/github/repos**
 
-Retrieves all the repositories including private and public repositories but *excluded* the forked repo's. It works similar to github URL *"https://api.github.com/search/repositories?q=user:<username>"*.
+Retrieves all the repositories including private and public repositories but *excluding* the forked repo's. It works similar to github URL *"https://api.github.com/search/repositories?q=user:<username>"*.
 
 **GET**
   > **/api/github/languages**
