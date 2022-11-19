@@ -28,6 +28,8 @@ To use the API you will first need a couple of things set up beforehand. Create 
 
 Upon finishing the environment set up, you can then continue to use the API using the following endpoints.
 
+### User Endpoints
+
 **POST**
 > **/api/user/signup**
 
@@ -86,4 +88,61 @@ To update the work experience, these are the expected properties:
   }
   ```
 
+**GET**
+  > **/api/user/get/single**
+
+Retrieves user data from the database using the id stored in the token. You will need to send the token via the headers:
+
+**Using fetch**
+```
+const login = async (token) => {
+  fetch('<URL>/api/user/get/single', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          <Do something>        
+        })
+        .catch((e) => console.log(e.message));
+   }
+```
+
+**Using axios**
+```
+const login = async (token) => {
+  const requestData = await axios.get('<URL>/api/user/get/single', 
+     headers: {
+        Authorization: `Bearer ${token}`,
+      }
+  )
+}
+```
+
+**GET**
+  > **/api/user/get/all**
+
+Retrieves all users from the database.
+
+
+### Github Endpoints
+
+These endpoints are implemented to make it easier for you to use Github API, especially if you want to get the percentage of the languages used across your repositories.
+
+*It is a must that you have your environment setup completed (e.g. GITHUB_USER and GIT_TOKEN) in order for this to work*
+
+**GET**
+  > **/api/github/repos**
+
+Retrieves all the repositories including private and public repositories but *excluded* the forked repo's. It works similar to github URL *"https://api.github.com/search/repositories?q=user:<username>"*.
+
+**GET**
+  > **/api/github/languages**
+
+Retrieves all the repo's and then calculates the overall percentage across your repositories.
+
+-------------
+
+Thank you!
 
