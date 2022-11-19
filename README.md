@@ -18,8 +18,17 @@ Currently, this API has limited functionality as it is still a work in progress.
 
 ## How to use the API
 
-To use the API, these are the endpoints that you need to be aware of:
+To use the API you will first need a couple of things set up beforehand. Create these variables and store it in your .env file.
 
+1. SECRET - This is a secret key used for JWT Token
+2. GITHUB_USER - This is github username
+3. GIT_TOKEN - This is the token taken from your github account
+4. DB_CONNECTION - Connection string
+
+
+Upon finishing the environment set up, you can then continue to use the API using the following endpoints.
+
+**GET**
 > **/api/user/signup**
 
 Requires the following properties in the req.body:
@@ -33,6 +42,7 @@ Requires the following properties in the req.body:
   }
   ```
   
+**GET**
 > **/api/user/login**
 
 Requires the following fields in the req.body which should return a jwt token
@@ -44,14 +54,36 @@ Requires the following fields in the req.body which should return a jwt token
   }
   ```
   
+**PUT**
   > **/api/user/add**
 
-Requires the following fields in the req.body which should return a jwt token
+The properties will depend on what you want to update, it can be the workExperience or the Projects. The JSON object bellow is a sample of what you can do for Projects.
 
   ```
   {
-      "email" : <value>,
-      "password" : <value>,
+      "projects" : {
+          "title" : "Blog Post",
+          "subtitle" : "Fullstack Web Application",
+          "description" : "This is a fullstack web application for....",
+          "typeOfProjects" : "Fullstack",
+          "status" : "In Progress",
+          "link" : "www.blogpost.com",
+          "technologies" : ["MongoDB", "NodeJS","Express", "React"]
+      }
   }
   ```
+  
+To update the work experience, these are the expected properties:
+
+  ```
+  {
+      "workExperience" : {
+          "role" : "Food Tester",
+          "year" : "2023-2024",
+          "description" : "Example work experience description",
+          "archive" : false,
+      }
+  }
+  ```
+
 
