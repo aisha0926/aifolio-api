@@ -28,7 +28,7 @@ To use the API you will first need a couple of things set up beforehand. Create 
 
 Upon finishing the environment set up, you can then continue to use the API using the following endpoints.
 
-**GET**
+**POST**
 > **/api/user/signup**
 
 Requires the following properties in the req.body:
