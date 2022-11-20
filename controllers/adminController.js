@@ -172,7 +172,8 @@ const getAllUser = async (req, res) => {
 };
 
 const sendEmail = (req, res) => {
-  const { email, name, number, message } = req.body;
+  const { email, name, number, sender_message } = req.body;
+  console.log(req.body);
   const msg = {
     to: 'alhime1225@gmail.com', // Change to your recipient
     from: 'aisha.0926@hotmail.com',
@@ -184,7 +185,7 @@ const sendEmail = (req, res) => {
       email: `${email}`,
       name: `${name}`,
       number: `${number}`,
-      mesage: `${message}`,
+      sender_message: `${sender_message}`,
     },
   };
 
