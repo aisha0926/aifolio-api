@@ -175,12 +175,12 @@ const sendEmail = (req, res) => {
   const { email, name, number, sender_message } = req.body;
 
   const msg = {
-    to: 'alhime1225@gmail.com', // Change to your recipient
-    from: 'aisha.0926@hotmail.com',
+    to: process.env.SENDGRID_RECIPIENT_EMAIL, // Change to your recipient
+    from: process.env.SENDGRID_SENDER_EMAIL,
     subject: "Email from Ai'Folio",
     text: 'Just some gibberish stuff to test the sendgrid api',
     html: '<strong>Message</strong>',
-    templateId: 'd-aacd8b1abfd04dfba51bcc13b315556d',
+    templateId: process.env.SENDGRID_TEMPLATE_ID,
     dynamic_template_data: {
       email: `${email}`,
       name: `${name}`,
