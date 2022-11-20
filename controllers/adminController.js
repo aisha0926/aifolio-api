@@ -1,7 +1,12 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import Admin from '../models/Admin.js';
 import auth from '../auth.js';
 
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
+import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //Module for sign up
 const signUp = async (req, res) => {
@@ -166,6 +171,33 @@ const getAllUser = async (req, res) => {
   return res.send(data);
 };
 
+const sendEmail = (req, res) => {
+  const { email, name, number, message } = req.body;
+  const msg = {
+    to: 'alhime1225@gmail.com', // Change to your recipient
+    from: 'aisha.0926@hotmail.com',
+    subject: "Email from Ai'Folio",
+    text: 'Just some gibberish stuff to test the sendgrid api',
+    html: '<strong>Message</strong>',
+    templateId: 'd-aacd8b1abfd04dfba51bcc13b315556d',
+    dynamic_template_data: {
+      email: `${email}`,
+      name: `${name}`,
+      number: `${number}`,
+      mesage: `${message}`,
+    },
+  };
+
+  sgMail
+    .send(msg)
+    .then((response) => {
+      res.send({ message: `Email sent successfully.` });
+    })
+    .catch((error) => {
+      res.send({ message: error });
+    });
+};
+
 // Module to delete data
 
 export default {
@@ -175,4 +207,5 @@ export default {
   updateUserData,
   getUserData,
   getAllUser,
+  sendEmail,
 };

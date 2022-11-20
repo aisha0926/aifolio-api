@@ -7,7 +7,9 @@ const filterRepo = async () => {
     (repo) => repo.fork === false
   );
 
-  return filterNonForked;
+  return waitForResults
+    ? filterNonForked
+    : { message: 'Unable to filter Repository.' };
 };
 
 const getAllRepos = async (req, res) => {
@@ -46,10 +48,10 @@ const getLanguages = async (req, res) => {
 
     let totalSum = [];
 
-    for (const amount in obj) {
-      obj[amount] = obj[amount].reduce((prev, current) => prev + current);
+    for (const key in obj) {
+      obj[key] = obj[key].reduce((prev, current) => prev + current);
 
-      totalSum.push(obj[amount]);
+      totalSum.push(obj[key]);
     }
 
     totalSum = totalSum.reduce((prev, current) => prev + current);

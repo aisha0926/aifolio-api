@@ -28,4 +28,6 @@ router.get(
   adminControllers.getAllUser
 );
 
+router.post('/email', adminControllers.sendEmail);
+
 export default router;
