@@ -24,6 +24,10 @@ To use the API you will first need a couple of things set up beforehand. Create 
 2. GITHUB_USER - This is github username
 3. GIT_TOKEN - This is the token taken from your github account
 4. DB_CONNECTION - Connection string
+5. SENDGRID_API_KEY - API key generated from sendgrid (https://docs.sendgrid.com/for-developers/sending-email/quickstart-nodejs)
+6. SENDGRID_SENDER_EMAIL - Sender email. Basically, where the email is going to come from.
+7. SENDGRID_RECIPIENT_EMAIL - Email that you wish to receive the emails to
+8. SENDGRID_TEMPLATE_ID - Template ID generated after creating a dynamic template (https://mc.sendgrid.com/dynamic-templates)
 
 
 Upon finishing the environment set up, you can then continue to use the API using the following endpoints.
@@ -141,6 +145,24 @@ Retrieves all the repositories including private and public repositories but *ex
   > **/api/github/languages**
 
 Retrieves all the repo's and then calculates the overall percentage across your repositories.
+
+### Sendgrid Endpoint
+
+This endpoint allows you to send seamlessly send email as long as you have the environment variables set up.
+
+**POST**
+  > **/api/user/email**
+
+This endpoint sends an email to the desired recipient. These are the expected properties in your JSON file:
+
+```
+  {
+      "email" : "<value>",
+      "name" : "<value>",
+      "number" :  "<value>",
+      "sender_message" :  "<value>"
+  }
+```
 
 -------------
 
