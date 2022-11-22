@@ -10,7 +10,7 @@ Currently, this API has limited functionality as it is still a work in progress.
 
 * Sign up 
 * Login
-* Authentication
+* Authentication (JSON Web Token)
 * Admin Panel
 * Send email via sendgrid
 * Get git repositories
