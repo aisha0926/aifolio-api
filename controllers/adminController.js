@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import Admin from '../models/Admin.js';
-import auth from '../auth.js';
+import auth from '../config/auth.js';
 
 import bcrypt from 'bcryptjs';
 import axios from 'axios';
@@ -74,32 +74,6 @@ const addUserData = async (req, res) => {
       projects,
     } = req.body;
 
-    // const details = {
-    //   image,
-    //   workExperience,
-    //   projects,
-    // };
-
-    const findUser = await Admin.findByIdAndUpdate(
-      req.user.id,
-      {
-        $push: {
-          image,
-          workExperience: {
-            $each: workExperience,
-            $position: 0,
-          },
-          projects: {
-            $each: projects,
-            $position: 0,
-          },
-        },
-      },
-      {
-        new: true,
-      }
-    );
-
     const userDetail = {
       firstName,
       lastName,
@@ -112,16 +86,65 @@ const addUserData = async (req, res) => {
       userDetail
     );
 
-    if (findUser) {
-      if (findUserAndUpdate) {
-        return res.send(findUser);
-      } else {
-        return res.send({
-          error: `Error saving data ${findUserAndUpdate} not found`,
-        });
-      }
+    if (req.body.projects && req.body.workExperience) {
+      const findUser = await Admin.findByIdAndUpdate(
+        req.user.id,
+        {
+          $push: {
+            image,
+            workExperience: {
+              $each: workExperience,
+              $position: 0,
+            },
+            projects: {
+              $each: projects,
+              $position: 0,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return res.send(findUser);
+    } else if (req.body.projects) {
+      const updateProjects = await Admin.findByIdAndUpdate(
+        req.user.id,
+        {
+          $push: {
+            projects: {
+              $each: [projects],
+              $position: 0,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return res.send(updateProjects);
+    } else if (req.body.workExperience) {
+      const updateExperience = await Admin.findByIdAndUpdate(
+        req.user.id,
+        {
+          $push: {
+            workExperience: {
+              $each: [workExperience],
+              $position: 0,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return res.send(updateExperience);
+    } else if (findUserAndUpdate) {
+      return res.send(findUserAndUpdate);
     } else {
-      return res.send({ error: `Error saving data ${findUser} not found` });
+      return res.send({
+        error: `Error saving data ${findUserAndUpdate} not found`,
+      });
     }
   } catch (error) {
     return res.send({ error: `Error: ${error.message}` });
@@ -141,7 +164,7 @@ const updateUserData = async (req, res) => {
     }
     console.log($set);
 
-    //Positional dollar sign
+    //Po+ sitional dollar sign
     const test = await Admin.findOneAndUpdate(
       {
         projects: { $elemMatch: { _id: _id } },
@@ -169,6 +192,65 @@ const getAllUser = async (req, res) => {
   const data = await Admin.find({}).select('-password -isAdmin');
 
   return res.send(data);
+};
+
+const updateData = async (req, res) => {
+  try {
+    const { id, projects, workExperience } = req.body;
+
+    if (workExperience) {
+      const userData = await Admin.findByIdAndUpdate(
+        { _id: req.user.id, 'workExperience._id': id },
+        {
+          $set: {
+            'workExperience.$[elem]': workExperience,
+          },
+        },
+        { arrayFilters: [{ 'elem._id': id }] }
+      );
+      res.send(userData);
+    } else if (projects) {
+      const projectsData = await Admin.findByIdAndUpdate(
+        { _id: req.user.id, 'projects._id': id },
+        {
+          $set: {
+            'projects.$[elem]': projects,
+          },
+        },
+        { arrayFilters: [{ 'elem._id': id }] }
+      );
+      res.send(projectsData);
+    } else {
+      process.exit(1);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Delete
+const deleteData = async (req, res) => {
+  /* 
+  MAYBE USE AN ARCHIVE AND INSTEAD OF DELETING THE NESTED DATA, JUST CHANGE ITS ARCHIVE VALUE TO TRUE 
+  */
+  try {
+    const { id } = req.body;
+
+    const test = await Admin.findById(req.user.id);
+
+    const userData = await Admin.findByIdAndUpdate(
+      { _id: req.user.id, 'workExperience._id': id },
+      {
+        $pull: {
+          'workExperience.$[elem]': { _id: id },
+        },
+      },
+      { arrayFilters: [{ 'elem._id': id }] }
+    );
+    res.send(userData);
+  } catch (error) {
+    res.send({ error: error.message });
+  }
 };
 
 const sendEmail = (req, res) => {
@@ -209,4 +291,6 @@ export default {
   getUserData,
   getAllUser,
   sendEmail,
+  updateData,
+  deleteData,
 };

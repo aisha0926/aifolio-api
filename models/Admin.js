@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
 
-const adminSchema = new mongoose.Schema({
+const ownerSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  aboutMe: String,
   email: String,
   password: String,
   isAdmin: {
@@ -14,40 +13,40 @@ const adminSchema = new mongoose.Schema({
     {
       page: String,
       url: String,
-      archive: {
-        type: Boolean,
-        default: false,
-      },
     },
   ],
   workExperience: [
     {
       year: String,
       role: String,
-      description: String,
-      archive: {
-        type: Boolean,
-        default: false,
+      description: {
+        shortDescription: {
+          type: String,
+          required: [true, 'Short description cannot be empty'],
+        },
+        bullets: [],
       },
     },
   ],
   projects: [
     {
+      label: String,
       title: String,
-      subtitle: String,
-      description: String,
-      typeOfProject: String,
-      status: String,
-      link: String,
-      archive: {
-        type: Boolean,
-        default: false,
+      description: {
+        shortDescription: {
+          type: String,
+          required: [true, 'Short description cannot be empty'],
+        },
+        bullets: [],
       },
+      status: String,
+      projectLink: String,
+      githubLink: String,
       technologies: [],
     },
   ],
 });
 
-const Admin = mongoose.model('Admin', adminSchema);
+const Owner = mongoose.model('Owner', ownerSchema);
 
-export default Admin;
+export default Owner;

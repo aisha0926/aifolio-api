@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import auth from '../auth.js';
+import auth from '../config/auth.js';
 const { verifyToken, verifyAdmin } = auth;
 
 import adminControllers from '../controllers/adminController.js';
@@ -10,23 +10,22 @@ import adminControllers from '../controllers/adminController.js';
 router.post('/signup', adminControllers.signUp);
 router.post('/login', adminControllers.login);
 router.put('/add', verifyToken, verifyAdmin, adminControllers.addUserData);
-router.patch(
-  '/update',
-  verifyToken,
-  verifyAdmin,
-  adminControllers.updateUserData
-);
-router.get(
+router.put('/update', verifyToken, verifyAdmin, adminControllers.updateData);
+router.put('/delete', verifyToken, verifyAdmin, adminControllers.deleteData);
+
+// router.patch(
+//   '/update',
+//   verifyToken,
+//   verifyAdmin,
+//   adminControllers.updateUserData
+// );
+router.post(
   '/get/single',
   verifyToken,
   verifyAdmin,
   adminControllers.getUserData
 );
-router.get(
-  '/get/all',
-
-  adminControllers.getAllUser
-);
+router.get('/get/all', adminControllers.getAllUser);
 
 router.post('/email', adminControllers.sendEmail);
 
