@@ -114,7 +114,7 @@ const addUserData = async (req, res) => {
         {
           $push: {
             projects: {
-              $each: [projects],
+              $each: projects,
               $position: 0,
             },
           },
@@ -130,7 +130,7 @@ const addUserData = async (req, res) => {
         {
           $push: {
             workExperience: {
-              $each: [workExperience],
+              $each: workExperience,
               $position: 0,
             },
           },
