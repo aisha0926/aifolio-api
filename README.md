@@ -11,7 +11,7 @@ Currently, this API has limited functionality as it is still a work in progress.
 * Sign up 
 * Login
 * Authentication (JSON Web Token)
-* Admin Panel (Add and Edit data)
+* Admin Panel (CRUD functionalities)
 * Send email via sendgrid
 * Get git repositories
 * Get an overall language percentage used across all your repositories
