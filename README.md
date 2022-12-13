@@ -89,6 +89,23 @@ To update the work experience, these are the expected properties:
   ```
   
   **PUT**
+  > **/api/user/update**
+
+This property will update the user details such as firstName, lastName and email. Please ensure that this endpoint comes first before the endpoint below.
+
+(Requires admin token)
+
+These are the expected properties to update the user data.
+
+  ```
+{
+    "firstName" : value,
+    "lastName" : value,
+    "email": value
+}
+  ```
+  
+  **PUT**
   > **/api/user/update/:id**
 
 The properties will depend on what you want to update, it can be any property from either the projects object or the workExperience object, however, the *id* is required in order to update the desired property, it should be a wildcard and accessed through req.params. The JSON object bellow is a sample of what you can do for Projects.
