@@ -12,18 +12,12 @@ const filterRepo = async () => {
     : { message: 'Unable to filter Repository.' };
 };
 
-const getAllRepos = async (req, res) => {
-  const getResult = await filterRepo();
-
-  res.send(getResult);
-};
-
-const getLanguages = async (req, res) => {
+const getAllLanguages = async (repositories) => {
   try {
-    const getRepo = await filterRepo();
+    // const getRepo = await filterRepo();
 
     const getRepoName = await Promise.all(
-      getRepo.map(async (repo) => {
+      repositories.map(async (repo) => {
         const languageReq = await git.languages(repo.name);
         return languageReq;
       })
@@ -65,13 +59,42 @@ const getLanguages = async (req, res) => {
 
     totalPercentage = totalPercentage.reduce((prev, current) => prev + current);
 
-    res.send(percentage);
+    return percentage;
   } catch (error) {
-    return res.send({ message: error.message });
+    console.log(error);
   }
+};
+
+const getAllRepos = async (req, res) => {
+  const getResult = await filterRepo();
+
+  res.send(getResult);
+};
+
+const getLanguages = async (req, res) => {
+  const getRepo = await filterRepo();
+  const result = await getAllLanguages(getRepo);
+  console.log('getLanguages ', result.length);
+  res.send(result);
+};
+
+const getRecentRepo = async (req, res) => {
+  const getResult = await filterRepo();
+  const testArr = [];
+
+  const test = getResult.map((el) => {
+    if (el.created_at.includes(new Date().getFullYear().toString())) {
+      testArr.push(el);
+    }
+    return el;
+  });
+
+  const result = await getAllLanguages(testArr);
+  res.send(result);
 };
 
 export default {
   getAllRepos,
   getLanguages,
+  getRecentRepo,
 };
