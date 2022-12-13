@@ -199,8 +199,6 @@ const login = async (token) => {
 Retrieves all users from the database.
 
 
-
-
 ### Github Endpoints
 
 These endpoints are implemented to make it easier for you to use Github API, especially if you want to get the percentage of the languages used across your repositories.
@@ -216,6 +214,11 @@ Retrieves all the repositories including private and public repositories but *ex
   > **/api/github/languages**
 
 Retrieves all the repo's and then calculates the overall percentage across your repositories.
+
+**GET**
+  > **/api/github/languages/recent**
+
+Retrieves all recent languages used (yearly basis).
 
 ### Sendgrid Endpoint
 
