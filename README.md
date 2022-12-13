@@ -63,31 +63,7 @@ Requires the following fields in the req.body which should return a jwt token
 **PUT**
   > **/api/user/add**
 
-The properties will depend on what you want to update, it can be the workExperience or the Projects. The JSON object bellow is a sample of what you can do for Projects.
-
-  ```
-  {
-     "projects": [
-          {
-              "label": "TEST",
-              "title": "TEST",
-              "description": {
-                  "shortDescription": "Test",
-                  "bullets": ["Did A", "Did B", "and Did C"]
-              },
-              "status": "In Progress",
-              "projectLink": "www.blogpost.com",
-              "githubLink": "www.blogpost.com",
-              "technologies": [
-                  "MongoDB",
-                  "NodeJS",
-                  "Express",
-                  "React"
-              ]
-          }
-      ]
-  }
-  ```
+The properties will depend on what you want to update, it can be the workExperience or the Projects. The JSON object bellow is a sample of what you can do for WorkExperience. (Requires admin token)
   
 To update the work experience, these are the expected properties:
 
@@ -102,20 +78,27 @@ To update the work experience, these are the expected properties:
                 "bullets": [
                     "<Bullet points of what your role entailed>"
                 ]
-            }
+            },
+            "status" : value,
+            "projectLink" : value,
+            "githubLink" : value,
+            "technologies" : [value]
         }
       ]
   }
   ```
   
   **PUT**
-  > **/api/user/update**
+  > **/api/user/update/:id**
 
-The properties will depend on what you want to update, it can be any properties from either the Project object or the workExperience object, however, the *id* is required in order to update the desired property. The JSON object bellow is a sample of what you can do for Projects.
+The properties will depend on what you want to update, it can be any property from either the projects object or the workExperience object, however, the *id* is required in order to update the desired property, it should be a wildcard and accessed through req.params. The JSON object bellow is a sample of what you can do for Projects.
+
+(Requires admin token)
+
+To update the work experience, these are the expected properties:
 
   ```
-  {
-    "id": "<object id of the project/workexperience you want to update>",
+ {
     "projects": [
           {
               "label": "TEST",
@@ -138,22 +121,26 @@ The properties will depend on what you want to update, it can be any properties 
   }
   ```
   
-To update the work experience, these are the expected properties:
+   **PUT**
+  > **/api/user/delete/:id**
+
+This endpoint will delete the desired embedded document depending on the embedded id. The token has to be sent back along with the headers as authentication is done on any admin endpoints.
+
+(Requires admin token)
+  
+To delete a project, this is the expected property:
+
+  ```
+ {
+    "projects" true
+  }
+  ```
+  
+  To delete a workExperience, this is the expected property:
 
   ```
   {
-       "workExperience": [
-        {
-            "year": "<Year of employment>",
-            "role": "<Role title>",
-            "description": {
-                "shortDescription": "<Short description or a summary of what your role>",
-                "bullets": [
-                    "<Bullet points of what your role entailed>"
-                ]
-            }
-        }
-      ]
+      "workExperience" : true
   }
   ```
 
