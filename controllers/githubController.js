@@ -82,8 +82,8 @@ const getRecentRepo = async (req, res) => {
   const getResult = await filterRepo();
   const testArr = [];
 
-  const test = getResult.map((el) => {
-    if (el.created_at.includes(new Date().getFullYear().toString())) {
+  getResult.map((el) => {
+    if (el.created_at.includes(`${new Date().getFullYear().toString()}`)) {
       testArr.push(el);
     }
     return el;
