@@ -10,8 +10,19 @@ import adminControllers from '../controllers/adminController.js';
 router.post('/signup', adminControllers.signUp);
 router.post('/login', adminControllers.login);
 router.put('/add', verifyToken, verifyAdmin, adminControllers.addUserData);
-router.put('/update', verifyToken, verifyAdmin, adminControllers.updateData);
-router.put('/delete', verifyToken, verifyAdmin, adminControllers.deleteData);
+router.put('/update', verifyToken, verifyAdmin, adminControllers.updateUser);
+router.put(
+  '/update/:id',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.updateData
+);
+router.put(
+  '/delete/:id',
+  verifyToken,
+  verifyAdmin,
+  adminControllers.deleteData
+);
 
 // router.patch(
 //   '/update',

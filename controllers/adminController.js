@@ -6,6 +6,7 @@ import auth from '../config/auth.js';
 import bcrypt from 'bcryptjs';
 import axios from 'axios';
 import sgMail from '@sendgrid/mail';
+import mongoose from 'mongoose';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //Module for sign up
@@ -194,11 +195,33 @@ const getAllUser = async (req, res) => {
   return res.send(data);
 };
 
+const updateUser = async (req, res) => {
+  const { firstName, lastName, email } = req.body;
+  const data = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+  };
+
+  try {
+    const updateUserData = await Admin.findByIdAndUpdate(req.user.id, data, {
+      new: true,
+    });
+    return res.send(updateUserData);
+  } catch (error) {
+    return res.send({ error: error.message });
+  }
+};
+
 const updateData = async (req, res) => {
   try {
-    const { id, projects, workExperience } = req.body;
+    const { projects, workExperience } = req.body;
+    const { id } = req.params;
+
+    console.log('test');
 
     if (workExperience) {
+      console.log('work');
       const userData = await Admin.findByIdAndUpdate(
         { _id: req.user.id, 'workExperience._id': id },
         {
@@ -210,6 +233,7 @@ const updateData = async (req, res) => {
       );
       res.send(userData);
     } else if (projects) {
+      console.log('projects');
       const projectsData = await Admin.findByIdAndUpdate(
         { _id: req.user.id, 'projects._id': id },
         {
@@ -230,26 +254,35 @@ const updateData = async (req, res) => {
 
 // Delete
 const deleteData = async (req, res) => {
-  /* 
-  MAYBE USE AN ARCHIVE AND INSTEAD OF DELETING THE NESTED DATA, JUST CHANGE ITS ARCHIVE VALUE TO TRUE 
-  */
   try {
-    const { id } = req.body;
+    const { id } = req.params;
+    const { projects, workExperience } = req.body;
 
-    const test = await Admin.findById(req.user.id);
-
-    const userData = await Admin.findByIdAndUpdate(
-      { _id: req.user.id, 'workExperience._id': id },
-      {
-        $pull: {
-          'workExperience.$[elem]': { _id: id },
+    if (projects) {
+      const userData = await Admin.findByIdAndUpdate(
+        req.user.id,
+        {
+          $pull: {
+            projects: { _id: id },
+          },
         },
-      },
-      { arrayFilters: [{ 'elem._id': id }] }
-    );
-    res.send(userData);
+        { new: true }
+      );
+      return res.send(userData);
+    } else if (workExperience) {
+      const userData = await Admin.findByIdAndUpdate(
+        req.user.id,
+        {
+          $pull: {
+            workExperience: { _id: id },
+          },
+        },
+        { new: true }
+      );
+      return res.send(userData);
+    }
   } catch (error) {
-    res.send({ error: error.message });
+    return res.send({ error: error.message });
   }
 };
 
@@ -293,4 +326,5 @@ export default {
   sendEmail,
   updateData,
   deleteData,
+  updateUser,
 };
