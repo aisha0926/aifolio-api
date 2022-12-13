@@ -11,7 +11,7 @@ Currently, this API has limited functionality as it is still a work in progress.
 * Sign up 
 * Login
 * Authentication (JSON Web Token)
-* Admin Panel
+* Admin Panel (Add and Edit data)
 * Send email via sendgrid
 * Get git repositories
 * Get an overall language percentage used across all your repositories
@@ -67,15 +67,25 @@ The properties will depend on what you want to update, it can be the workExperie
 
   ```
   {
-      "projects" : {
-          "title" : "Blog Post",
-          "subtitle" : "Fullstack Web Application",
-          "description" : "This is a fullstack web application for....",
-          "typeOfProjects" : "Fullstack",
-          "status" : "In Progress",
-          "link" : "www.blogpost.com",
-          "technologies" : ["MongoDB", "NodeJS","Express", "React"]
-      }
+     "projects": [
+          {
+              "label": "TEST",
+              "title": "TEST",
+              "description": {
+                  "shortDescription": "Test",
+                  "bullets": ["Did A", "Did B", "and Did C"]
+              },
+              "status": "In Progress",
+              "projectLink": "www.blogpost.com",
+              "githubLink": "www.blogpost.com",
+              "technologies": [
+                  "MongoDB",
+                  "NodeJS",
+                  "Express",
+                  "React"
+              ]
+          }
+      ]
   }
   ```
   
@@ -83,12 +93,67 @@ To update the work experience, these are the expected properties:
 
   ```
   {
-      "workExperience" : {
-          "role" : "Food Tester",
-          "year" : "2023-2024",
-          "description" : "Example work experience description",
-          "archive" : false,
-      }
+      "workExperience": [
+        {
+            "year": "<Year of employment>",
+            "role": "<Role title>",
+            "description": {
+                "shortDescription": "<Short description or a summary of what your role>",
+                "bullets": [
+                    "<Bullet points of what your role entailed>"
+                ]
+            }
+        }
+      ]
+  }
+  ```
+  
+  **PUT**
+  > **/api/user/update**
+
+The properties will depend on what you want to update, it can be any properties from either the Project object or the workExperience object, however, the *id* is required in order to update the desired property. The JSON object bellow is a sample of what you can do for Projects.
+
+  ```
+  {
+    "id": "<object id of the project/workexperience you want to update>",
+    "projects": [
+          {
+              "label": "TEST",
+              "title": "TEST",
+              "description": {
+                  "shortDescription": "Test",
+                  "bullets": ["Did A", "Did B", "and Did C"]
+              },
+              "status": "In Progress",
+              "projectLink": "www.blogpost.com",
+              "githubLink": "www.blogpost.com",
+              "technologies": [
+                  "MongoDB",
+                  "NodeJS",
+                  "Express",
+                  "React"
+              ]
+          }
+      ]
+  }
+  ```
+  
+To update the work experience, these are the expected properties:
+
+  ```
+  {
+       "workExperience": [
+        {
+            "year": "<Year of employment>",
+            "role": "<Role title>",
+            "description": {
+                "shortDescription": "<Short description or a summary of what your role>",
+                "bullets": [
+                    "<Bullet points of what your role entailed>"
+                ]
+            }
+        }
+      ]
   }
   ```
 
@@ -128,6 +193,8 @@ const login = async (token) => {
   > **/api/user/get/all**
 
 Retrieves all users from the database.
+
+
 
 
 ### Github Endpoints
