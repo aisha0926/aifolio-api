@@ -1,6 +1,6 @@
 # aifolio-api
 
-Portfolio API that utilizes REST API, CRUD Operations, third parth API integration (Github and Sendgrid API), built using MongoDB, Express and NodeJS.
+Portfolio API that utilizes REST API, CRUD Operations, and third-party API integration (Github and Sendgrid API), built using MongoDB, Express, and NodeJS.
 
 ----
 
